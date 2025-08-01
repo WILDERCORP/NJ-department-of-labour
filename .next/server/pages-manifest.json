@@ -2,8 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/authenticate": "pages/authenticate.js",
+  "/": "pages/index.js",
   "/verify": "pages/verify.js",
   "/onboarding": "pages/onboarding.js",
-  "/": "pages/index.js"
+  "/authenticate": "pages/authenticate.js"
 }
