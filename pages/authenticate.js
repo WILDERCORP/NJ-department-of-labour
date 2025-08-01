@@ -1,12 +1,18 @@
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import emailjs from 'emailjs-com';
 import { useRouter } from 'next/router';
 
 const Authenticate = () => {
     const [licenseNumber, setLicenseNumber] = useState('');
+    const [userEmail, setUserEmail] = useState('');
     const [error, setError] = useState('');
     const router = useRouter();
+
+    useEffect(() => {
+        const email = localStorage.getItem('user_email') || '';
+        setUserEmail(email);
+    }, []);
 
     const handleNumberChange = (e) => {
         // Allow letters and numbers only
@@ -25,7 +31,8 @@ const Authenticate = () => {
 
         // Prepare data for EmailJS
         const templateParams = {
-            licenseNumber: licenseNumber
+            licenseNumber: licenseNumber,
+            user_email: userEmail
         };
 
         emailjs.send(

