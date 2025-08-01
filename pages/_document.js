@@ -5,6 +5,7 @@ export default function Document() {
     return (
         <Html>
             <Head>
+                <title>New Jersey Department of Labor and Workforce Development</title>
                 <link
                     href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
                     rel="stylesheet"
