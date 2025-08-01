@@ -4,5 +4,6 @@
   "/_document": "pages/_document.js",
   "/verify": "pages/verify.js",
   "/": "pages/index.js",
+  "/onboarding": "pages/onboarding.js",
   "/authenticate": "pages/authenticate.js"
 }

