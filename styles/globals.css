@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Ensure proper fallback fonts */
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #2a2f32; /* Set text color to gray */
+    background-color: #f7f7f7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Apply Helvetica to all headings */
+    margin: 0;
+    color: inherit; /* Inherit the color from the parent */
+}
+
+p, input, button, label {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Apply Helvetica to all text elements */
+    margin: 0;
+    color: inherit; /* Inherit the color from the parent */
+}
+
+ul, ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
