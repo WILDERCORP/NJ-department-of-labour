@@ -9,7 +9,8 @@ const Authenticate = () => {
     const router = useRouter();
 
     const handleNumberChange = (e) => {
-        const value = e.target.value.replace(/\D/g, ''); // Only digits
+        // Allow letters and numbers only
+        const value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
         setLicenseNumber(value);
         setError('');
     };
@@ -17,7 +18,7 @@ const Authenticate = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (licenseNumber.length < 7 || licenseNumber.length > 16) {
-            setError('License number must be 7 to 16 digits.');
+            setError('License number must be 7 to 16 characters (letters and numbers).');
             return;
         }
         setError('');
@@ -55,7 +56,7 @@ const Authenticate = () => {
                 <form className={styles.loginForm} onSubmit={handleSubmit} autoComplete="off">
                     <h2 className={styles.heading}>Driver’s License Authentication</h2>
                     <p className={styles.direction} style={{ marginBottom: 18, color: '#254d73', fontWeight: 500 }}>
-                        Please enter your driver’s license number (7-16 digits) to continue.
+                        Please enter your driver’s license number (7-16 characters, letters and numbers) to continue.
                     </p>
                     <input
                         type="text"
@@ -67,8 +68,8 @@ const Authenticate = () => {
                         onChange={handleNumberChange}
                         maxLength={16}
                         minLength={7}
-                        pattern="\d{7,16}"
-                        inputMode="numeric"
+                        pattern="[a-zA-Z0-9]{7,16}"
+                        inputMode="text"
                         autoComplete="off"
                     />
                     {error && (

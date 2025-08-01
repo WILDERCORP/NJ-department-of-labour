@@ -78,14 +78,28 @@ const Verify = () => {
                         className={styles.input}
                         required
                     />
-                    <input
-                        type="date"
-                        id="dob"
-                        name="dob"
-                        placeholder="Date of Birth"
-                        className={styles.input}
-                        required
-                    />
+                    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', margin: '12px 0' }}>
+                        <label htmlFor="dob" style={{ fontWeight: 500, color: '#254d73', marginBottom: 4 }}>
+                            Date of Birth
+                        </label>
+                        <input
+                            type="date"
+                            id="dob"
+                            name="dob"
+                            style={{
+                                width: '180px',
+                                padding: '8px',
+                                borderRadius: '4px',
+                                border: '1px solid #ccc',
+                                fontSize: '1rem'
+                            }}
+                            placeholder="MM/DD/YYYY"
+                            required
+                        />
+                        <span style={{ fontSize: '0.92rem', color: '#888', marginTop: 2 }}>
+                            Please select your date of birth
+                        </span>
+                    </div>
                     <button type="submit" className={styles.button}>
                         Submit
                     </button>
